@@ -439,6 +439,30 @@ const [lapiseira, setLapiseira] = React.useState({
             columns={lapiseira.columns}
             data={lapiseira.data}
             className={classes.root}
+            localization={{
+                body: {
+                    emptyDataSourceMessage: 'Sua lista está vazia',
+                    filterRow: {
+                        filterTooltip: 'Filtrar'
+                    },
+                    editTooltip: "Editar",
+                    editRow: {
+                        saveTooltip: "Salvar",
+                        cancelTooltip: "Cancelar",
+                    }  
+                },
+                toolbar:{
+                    searchTooltip: 'Pesquisar',
+                    searchPlaceholder: 'Pesquisar'
+                },
+                header:{
+                    actions: "Ação"
+                },
+                pagination:{
+                    labelRowsSelect: "Linhas",
+                    labelDisplayedRows: "{from} - {to} de {count}"
+                }
+            }}
             editable={{
             onRowUpdate: (newData, oldData) =>
                 new Promise(resolve => {
@@ -446,15 +470,6 @@ const [lapiseira, setLapiseira] = React.useState({
                     resolve();
                     const data = [...lapiseira.data];
                     data[data.indexOf(oldData)] = newData;
-                    setLapiseira({ ...lapiseira, data });
-                }, 600);
-                }),
-            onRowDelete: oldData =>
-                new Promise(resolve => {
-                setTimeout(() => {
-                    resolve();
-                    const data = [...lapiseira.data];
-                    data.splice(data.indexOf(oldData), 1);
                     setLapiseira({ ...lapiseira, data });
                 }, 600);
                 }),
