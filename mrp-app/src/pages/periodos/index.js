@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -127,25 +127,26 @@ export default function Periodos({history}) {
             listaDemanda.push(item.Demanda)
             listArrayVazio.push(0)
         }) 
-        
+
        let formEditado = Array.from(form)
-       
 
        formEditado.splice(0,1, {...formEditado[0],
                 NumeroPeriodos: periodos.data.length, 
                 NecessidadesBrutas: listaDemanda, 
-                RecebimentosProgramados:listArrayVazio,
-                EstoqueProjetado:listArrayVazio,
-                RecebimentosOrdensPlanejadas:listArrayVazio,
-                LiberacaoOrdensPlanejadas:listArrayVazio })
-      
+                RecebimentosProgramados:JSON.parse(JSON.stringify(listArrayVazio)),
+                EstoqueProjetado:JSON.parse(JSON.stringify(listArrayVazio)),
+                RecebimentosOrdensPlanejadas:JSON.parse(JSON.stringify(listArrayVazio)),
+                LiberacaoOrdensPlanejadas:JSON.parse(JSON.stringify(listArrayVazio)) })
+    
        formEditado.map((item, index) => {
-           if(index !== 0)
-            formEditado.splice(index,1, {...formEditado[index],NumeroPeriodos: 0, NecessidadesBrutas: listArrayVazio,  
-                RecebimentosProgramados:listArrayVazio,
-                EstoqueProjetado:listArrayVazio,
-                RecebimentosOrdensPlanejadas:listArrayVazio,
-                LiberacaoOrdensPlanejadas:listArrayVazio})
+           if(index !== 0){
+            formEditado.splice(index,1, {...formEditado[index],NumeroPeriodos: 0, NecessidadesBrutas: JSON.parse(JSON.stringify(listArrayVazio)),  
+                RecebimentosProgramados:JSON.parse(JSON.stringify(listArrayVazio)),
+                EstoqueProjetado:JSON.parse(JSON.stringify(listArrayVazio)),
+                RecebimentosOrdensPlanejadas:JSON.parse(JSON.stringify(listArrayVazio)),
+                LiberacaoOrdensPlanejadas:JSON.parse(JSON.stringify(listArrayVazio))})
+            }
+           
        })
         setForm(form => ({
             ...form,
@@ -153,6 +154,10 @@ export default function Periodos({history}) {
                 ...form[0],
                 NumeroPeriodos:  periodos.data.length,
                 NecessidadesBrutas: listaDemanda,
+                RecebimentosProgramados:JSON.parse(JSON.stringify(listArrayVazio)),
+                EstoqueProjetado:JSON.parse(JSON.stringify(listArrayVazio)),
+                RecebimentosOrdensPlanejadas:JSON.parse(JSON.stringify(listArrayVazio)),
+                LiberacaoOrdensPlanejadas:JSON.parse(JSON.stringify(listArrayVazio))
             }
 
         }));
