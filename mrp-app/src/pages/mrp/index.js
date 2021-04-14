@@ -1,126 +1,125 @@
 import React, { Fragment } from 'react';
-import MaterialTable from 'material-table';
-import { forwardRef } from 'react';
-import {
-    Add,
-    ArrowDownward,
-    Check,
-    ChevronLeft,
-    ChevronRight,
-    Clear,
-    DeleteOutline,
-    Edit,
-    FilterList,
-    FirstPage,
-    LastPage,
-    Remove,
-    SaveAlt,
-    Search,
-    ViewColumn
-} from '@material-ui/icons';
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+/*function createData(name, calories, fat, carbs, protein) {
+    return { name, calories, fat, carbs, protein };
+  }
+  
+  const rows = [
+    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+    createData('Eclair', 262, 16.0, 24, 6.0),
+    createData('Cupcake', 305, 3.7, 67, 4.3),
+    createData('Gingerbread', 356, 16.0, 49, 3.9),
+  ];*/
+
+  const useStyles = makeStyles({
+    table: {
+      width: '90%',
+    },
+  });
+
+  function TesteComponentes(){
+      var array=[
+            {
+              NomeComponente:"Lapiseira P207",
+              TamanhoLoteMinimo:700,
+              LeadTime:1,
+              EstoqueSegurança:0,
+              Quantidade:0,
+              UnidadeQuantidade:"un",
+              EstoqueInicial:550,
+              NumeroPeriodos:8,
+              NecessidadesBrutas:[200,200,800,1200,400,1200,1200,200],
+              RecebimentosProgramados:[],
+              RecebimentosOrdensPlanejadas:[],
+              LiberacaoOrdensPlanejadas:[]
+            }
+        ]
+
+        return array;
+  }
+
+  function ConstruirTabela(){
+    var componentes = TesteComponentes();
+    var periodos = 0;
+    var result = [];
+    const classes = useStyles();
+    componentes.map((componente) => (
+        result.push(<div key={componente.NomeComponente}>
+            <h3>{componente.NomeComponente} - Lote = {componente.TamanhoLoteMinimo} - LT = {componente.LeadTime} - ES = {componente.EstoqueSegurança}</h3>
+            <TableContainer className={classes.table} component={Paper}>
+            <Table size="small" aria-label="a dense table">
+                <TableHead>
+                <TableRow>
+                    <TableCell>Períodos</TableCell>
+                    {componente.NecessidadesBrutas.map((_necessidade,index) => (
+                            <TableCell key={index} align="right">{++periodos}</TableCell>
+                    ))}
+                </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            Necessidades Brutas
+                        </TableCell>
+                        {componente.NecessidadesBrutas.map((necessidade,index) => (
+                            <TableCell key={index} align="right">{necessidade}</TableCell>
+                        ))}
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            Recebimentos Programados
+                        </TableCell>
+                        {componente.RecebimentosProgramados.map((recebimentos,index) => (
+                            <TableCell key={index} align="right">{recebimentos}</TableCell>
+                        ))}
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            Estoque Projetado | {componente.EstoqueInicial}
+                        </TableCell>
+                        {componente.NecessidadesBrutas.map((_necessidade,index) => (
+                            <TableCell key={index} align="right">{componente.EstoqueInicial}</TableCell>
+                        ))}
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            Recebimentos Ordens Planejadas
+                        </TableCell>
+                        {componente.RecebimentosOrdensPlanejadas.map((recebimentoOrdens,index) => (
+                            <TableCell key={index} align="right">{recebimentoOrdens}</TableCell>
+                        ))}
+                    </TableRow>
+                    <TableRow>
+                        <TableCell component="th" scope="row">
+                            Liberação Ordens Planejadas
+                        </TableCell>
+                        {componente.LiberacaoOrdensPlanejadas.map((liberacaoOrdens,index) => (
+                            <TableCell key={index} align="right">{liberacaoOrdens}</TableCell>
+                        ))}
+                    </TableRow>
+                </TableBody>
+            </Table>
+            </TableContainer>
+        </div>)
+      ));
+
+      return result;
+  }
 
 function MRP(){
-    const tableIcons = {
-        Add: forwardRef((props, ref) => <Add {...props} ref={ref} />),
-        Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-        Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-        Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
-        DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-        Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
-        Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
-        Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-        FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-        LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-        NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-        PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
-        ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-        Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
-        SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
-        ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-        ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
-    };
-
-    const [state, setState] = React.useState({
-        columns: [
-          { title: 'Name', field: 'name' },
-          { title: 'Surname', field: 'surname' },
-          { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-          {
-            title: 'Birth Place',
-            field: 'birthCity',
-            lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-          },
-        ],
-        data: [
-          { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-          {
-            name: 'Zerya Betül',
-            surname: 'Baran',
-            birthYear: 2017,
-            birthCity: 34,
-          },
-        ],
-      });
-
     return(
         <Fragment>
             <h1>Página MRP</h1>
-            <MaterialTable
-            icons={tableIcons}
-            title="Editable Example"
-            columns={state.columns}
-            data={state.data}
-            localization={{
-                body: {
-                    emptyDataSourceMessage: 'Sua lista está vazia',
-                    filterRow: {
-                        filterTooltip: 'Filtrar'
-                    },
-                    addTooltip: "Adicionar",
-                    editTooltip: "Editar",
-                    editRow: {
-                    saveTooltip: "Salvar",
-                    cancelTooltip: "Cancelar"
-                    }  
-                },
-                toolbar:{
-                    searchTooltip: 'Pesquisar',
-                    searchPlaceholder: 'Pesquisar'
-                },
-                header:{
-                    actions: "Editar"
-                },
-            }}
-            editable={{
-            onRowAdd: newData =>
-                new Promise(resolve => {
-                setTimeout(() => {
-                    resolve();
-                    const data = [...state.data];
-                    data.push(newData);
-                    setState({ ...state, data });
-                }, 600);
-                }),
-            onRowUpdate: (newData, oldData) =>
-                new Promise(resolve => {
-                setTimeout(() => {
-                    resolve();
-                    const data = [...state.data];
-                    data[data.indexOf(oldData)] = newData;
-                    setState({ ...state, data });
-                }, 600);
-                }),
-            onRowDelete: oldData =>
-                new Promise(resolve => {
-                setTimeout(() => {
-                    resolve();
-                    const data = [...state.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    setState({ ...state, data });
-                }, 600);
-                }),
-            }}
-        />
+            {ConstruirTabela()}
     </Fragment>
     );
 };
