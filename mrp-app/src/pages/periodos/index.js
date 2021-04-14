@@ -200,7 +200,7 @@ export default function Periodos({history}) {
                         setTimeout(() => {
                             resolve();
                             const data = [...periodos.data];
-                            newData.NumeroPeriodo = data.length !== 0? data[data.length - 1].NumeroPeriodo++ : 1   
+                            newData.NumeroPeriodo = data.length !== 0  ? data[data.length - 1].tableData.id + 2 : 1
                             data.push(newData);
                             setPeriodos({ ...periodos, data });
                         }, 600);
