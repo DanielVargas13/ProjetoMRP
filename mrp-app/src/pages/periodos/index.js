@@ -61,7 +61,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Periodos({history}) {
     //STYLE
     const classes = useStyles();
-
+    const [form, setForm] = React.useState(history.location.state || [])
+  
     const tableIcons = {
         Add: forwardRef((props, ref) => 
             <Button variant="outlined" color="primary" className={classes.addButton}>
@@ -89,7 +90,7 @@ export default function Periodos({history}) {
 
     const [periodos, setPeriodos] = React.useState({
       columns: [
-        { title: 'Número Periodo', field: 'NumeroPeriodo', type: 'numeric',    
+        { title: 'Número Periodo', field: 'NumeroPeriodo', type: 'numeric', editable: 'never' ,   
             cellStyle: {
                 textAlign: 'center',
             },
@@ -109,6 +110,36 @@ export default function Periodos({history}) {
       ],
       data: [],
     });
+
+    const sendRoute = formEditado => {
+        history.push({
+            pathname: `/mrp`,
+            state: formEditado ,
+        });
+    }
+
+    const handleClickMRP = () => {
+        let listaDemanda = [];
+
+        periodos.data.map(item => {
+            listaDemanda.push(item.Demanda)
+        })
+
+       let formEditado = Array.from(form)
+       formEditado.splice(0,1, {...formEditado[0],NumeroPeriodos: periodos.data.length, NecessidadesBrutas: listaDemanda, })
+
+        setForm(form => ({
+            ...form,
+            [0]:{
+                ...form[0],
+                NumeroPeriodos:  periodos.data.length,
+                NecessidadesBrutas: listaDemanda,
+            }
+
+        }));
+
+        sendRoute(formEditado);
+    }
   
     return (
         <Grid 
@@ -125,12 +156,7 @@ export default function Periodos({history}) {
             </Typography>
             <Container style={{textAlign: 'center', padding: 0}} maxWidth="xl">
                 <Button variant="outlined" color="primary" disabled={periodos.data.length === 0} className={classes.linkButton} 
-                    onClick={() => {
-                        history.push({
-                        pathname: `/mrp`,
-                        state: { periodos },
-                        });
-                    }}
+                    onClick={() => handleClickMRP()}
                 >
                     Gerar MRP
                     <ArrowForward className={classes.icons}/>
@@ -174,6 +200,7 @@ export default function Periodos({history}) {
                         setTimeout(() => {
                             resolve();
                             const data = [...periodos.data];
+                            newData.NumeroPeriodo = data.length !== 0? data[data.length - 1].NumeroPeriodo++ : 1   
                             data.push(newData);
                             setPeriodos({ ...periodos, data });
                         }, 600);
