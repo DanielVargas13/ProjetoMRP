@@ -120,14 +120,32 @@ export default function Periodos({history}) {
 
     const handleClickMRP = () => {
         let listaDemanda = [];
+        let listArrayVazio = []
 
         periodos.data.map(item => {
             listaDemanda.push(item.Demanda)
+            listArrayVazio.push(0)
         })
 
        let formEditado = Array.from(form)
-       formEditado.splice(0,1, {...formEditado[0],NumeroPeriodos: periodos.data.length, NecessidadesBrutas: listaDemanda, })
+       
 
+       formEditado.splice(0,1, {...formEditado[0],
+                NumeroPeriodos: periodos.data.length, 
+                NecessidadesBrutas: listaDemanda, 
+                RecebimentosProgramados:listArrayVazio,
+                EstoqueProjetado:listArrayVazio,
+                RecebimentosOrdensPlanejadas:listArrayVazio,
+                LiberacaoOrdensPlanejadas:listArrayVazio })
+      
+       formEditado.map((item, index) => {
+           if(index !== 0)
+            formEditado.splice(index,1, {...formEditado[0],NumeroPeriodos: 0, NecessidadesBrutas: listArrayVazio,  
+                RecebimentosProgramados:listArrayVazio,
+                EstoqueProjetado:listArrayVazio,
+                RecebimentosOrdensPlanejadas:listArrayVazio,
+                LiberacaoOrdensPlanejadas:listArrayVazio})
+       })
         setForm(form => ({
             ...form,
             [0]:{
