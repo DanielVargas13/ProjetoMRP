@@ -91,7 +91,7 @@ const [lapiseira, setLapiseira] = React.useState({
             TamanhoLoteMinimo:700,
             LeadTime:1,
             EstoqueSegurança:0,
-            Quantidade:0,
+            Quantidade:1,
             UnidadeQuantidade:"un",
             EstoqueInicial:550,
             NumeroPeriodos:0,
