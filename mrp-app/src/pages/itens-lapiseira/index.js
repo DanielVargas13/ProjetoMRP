@@ -192,11 +192,11 @@ const [lapiseira, setLapiseira] = React.useState({
             LiberacaoOrdensPlanejadas:[]
         },
         {
-            NomeComponente:"Plástico ABS",
+            NomeComponente:"Plástico ABS (Corpo externo)",
             TamanhoLoteMinimo:100,
             LeadTime:1,
             EstoqueSegurança:0,
-            Quantidade:17,
+            Quantidade:10,
             UnidadeQuantidade:"g",
             EstoqueInicial:0,
             NumeroPeriodos:0,
@@ -222,11 +222,11 @@ const [lapiseira, setLapiseira] = React.useState({
             LiberacaoOrdensPlanejadas:[]
         },
         {
-            NomeComponente:"Tira .1 mm",
+            NomeComponente:"Tira .1 mm (Tampa)",
             TamanhoLoteMinimo:100,
             LeadTime:1,
             EstoqueSegurança:0,
-            Quantidade:4,
+            Quantidade:2,
             UnidadeQuantidade:"g",
             EstoqueInicial:0,
             NumeroPeriodos:0,
@@ -312,6 +312,21 @@ const [lapiseira, setLapiseira] = React.useState({
             LiberacaoOrdensPlanejadas:[]
         },
         {
+            NomeComponente:"Tira .1 mm (Capa da borracha)",
+            TamanhoLoteMinimo:100,
+            LeadTime:1,
+            EstoqueSegurança:0,
+            Quantidade:2,
+            UnidadeQuantidade:"g",
+            EstoqueInicial:0,
+            NumeroPeriodos:0,
+            NecessidadesBrutas:[],
+            RecebimentosProgramados:[],
+            EstoqueProjetado:[],
+            RecebimentosOrdensPlanejadas:[],
+            LiberacaoOrdensPlanejadas:[]
+        },
+        {
             NomeComponente:"Mola",
             TamanhoLoteMinimo:100,
             LeadTime:1,
@@ -378,6 +393,21 @@ const [lapiseira, setLapiseira] = React.useState({
             EstoqueSegurança:0,
             Quantidade:3,
             UnidadeQuantidade:"un",
+            EstoqueInicial:0,
+            NumeroPeriodos:0,
+            NecessidadesBrutas:[],
+            RecebimentosProgramados:[],
+            EstoqueProjetado:[],
+            RecebimentosOrdensPlanejadas:[],
+            LiberacaoOrdensPlanejadas:[]
+        },
+        {
+            NomeComponente:"Plástico ABS (Corpo do Miolo)",
+            TamanhoLoteMinimo:100,
+            LeadTime:1,
+            EstoqueSegurança:0,
+            Quantidade:7,
+            UnidadeQuantidade:"g",
             EstoqueInicial:0,
             NumeroPeriodos:0,
             NecessidadesBrutas:[],
