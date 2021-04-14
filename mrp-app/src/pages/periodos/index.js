@@ -1,9 +1,17 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import MaterialTable from 'material-table';
 import { forwardRef } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+    Button,
+    Container,
+    Grid,
+    Typography 
+} from '@material-ui/core';
 import {
     Add,
     ArrowDownward,
+    ArrowForward,
     Check,
     ChevronLeft,
     ChevronRight,
@@ -19,9 +27,49 @@ import {
     ViewColumn
 } from '@material-ui/icons';
 
-export default function Periodos() {
+const useStyles = makeStyles((theme) => ({
+    root:{
+        backgroundColor: '#f7f6f6', 
+        height: '100vh', 
+        margin:0, 
+        padding: 0, 
+        overflow: 'hidden'
+    },
+    addButton:{
+        textTransform: 'capitalize'
+    },
+    title:{
+        textAlign: 'center',
+        margin: theme.spacing(3),
+        fontFamily: 'Questrial, sans-serif '
+    },
+    icons:{
+        margin: theme.spacing(1,2)
+    },
+    linkButton:{
+        textAlign: 'center',
+        justifyContent: 'center',
+        textTransform: 'capitalize',
+        marginTop: theme.spacing(-5),
+        paddingLeft: theme.spacing(5),
+    },
+    iconAdd:{
+        marginRight: theme.spacing(1)
+    },
+}))
+
+export default function Periodos({history}) {
+    //STYLE
+    const classes = useStyles();
+    const [form, setForm] = React.useState(history.location.state || [])
+  
     const tableIcons = {
-        Add: forwardRef((props, ref) => <Add {...props} ref={ref} />),
+        Add: forwardRef((props, ref) => 
+            <Button variant="outlined" color="primary" className={classes.addButton}>
+                <Add {...props} ref={ref} className={classes.iconAdd}/>
+                Incluir Período
+            </Button>
+        ),
         Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
         Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
         Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
@@ -40,87 +88,148 @@ export default function Periodos() {
         ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
     };
 
-    const [state, setState] = React.useState({
+    const [periodos, setPeriodos] = React.useState({
       columns: [
-        { title: 'Name', field: 'name' },
-        { title: 'Surname', field: 'surname' },
-        { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-        {
-          title: 'Birth Place',
-          field: 'birthCity',
-          lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+        { title: 'Número Periodo', field: 'NumeroPeriodo', type: 'numeric', editable: 'never' ,   
+            cellStyle: {
+                textAlign: 'center',
+            },
+            headerStyle: {
+                textAlign: 'center',
+            } 
         },
+        { title: 'Demanda', field: 'Demanda', type: 'numeric',
+            cellStyle: {
+                textAlign: 'center',
+            },
+            headerStyle: {
+                textAlign: 'center',
+                paddingRight: '3%'
+            }  
+        }
       ],
-      data: [
-        { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-        {
-          name: 'Zerya Betül',
-          surname: 'Baran',
-          birthYear: 2017,
-          birthCity: 34,
-        },
-      ],
+      data: [],
     });
+
+    const sendRoute = formEditado => {
+        history.push({
+            pathname: `/mrp`,
+            state: formEditado ,
+        });
+    }
+
+    const handleClickMRP = () => {
+        let listaDemanda = [];
+
+        periodos.data.map(item => {
+            listaDemanda.push(item.Demanda)
+        })
+
+       let formEditado = Array.from(form)
+       formEditado.splice(0,1, {...formEditado[0],NumeroPeriodos: periodos.data.length, NecessidadesBrutas: listaDemanda, })
+
+        setForm(form => ({
+            ...form,
+            [0]:{
+                ...form[0],
+                NumeroPeriodos:  periodos.data.length,
+                NecessidadesBrutas: listaDemanda,
+            }
+
+        }));
+
+        sendRoute(formEditado);
+    }
   
     return (
-        <Fragment>
-            <h1>Página Periodos</h1>
-        <MaterialTable
-            icons={tableIcons}
-            title="Editable Example"
-            columns={state.columns}
-            data={state.data}
-            localization={{
-                body: {
-                    emptyDataSourceMessage: 'Sua lista está vazia',
-                    filterRow: {
-                        filterTooltip: 'Filtrar'
-                    },
-                    addTooltip: "Adicionar",
-                    editTooltip: "Editar",
-                    editRow: {
-                    saveTooltip: "Salvar",
-                    cancelTooltip: "Cancelar"
-                    }  
-                },
-                toolbar:{
-                    searchTooltip: 'Pesquisar',
-                    searchPlaceholder: 'Pesquisar'
-                },
-                header:{
-                    actions: "Editar"
-                },
-            }}
-            editable={{
-            onRowAdd: newData =>
-                new Promise(resolve => {
-                setTimeout(() => {
-                    resolve();
-                    const data = [...state.data];
-                    data.push(newData);
-                    setState({ ...state, data });
-                }, 600);
-                }),
-            onRowUpdate: (newData, oldData) =>
-                new Promise(resolve => {
-                setTimeout(() => {
-                    resolve();
-                    const data = [...state.data];
-                    data[data.indexOf(oldData)] = newData;
-                    setState({ ...state, data });
-                }, 600);
-                }),
-            onRowDelete: oldData =>
-                new Promise(resolve => {
-                setTimeout(() => {
-                    resolve();
-                    const data = [...state.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    setState({ ...state, data });
-                }, 600);
-                }),
-            }}
-        />
-      </Fragment>
+        <Grid 
+            container  
+            direction="row"
+            justify="center"
+            alignItems="baseline" 
+            spacing={3}
+            zeroMinWidth={false}
+            className={classes.root}
+        >
+            <Typography variant="h4" gutterBottom className={classes.title}>
+                Cadastro de Períodos
+            </Typography>
+            <Container style={{textAlign: 'center', padding: 0}} maxWidth="xl">
+                <Button variant="outlined" color="primary" disabled={periodos.data.length === 0} className={classes.linkButton} 
+                    onClick={() => handleClickMRP()}
+                >
+                    Gerar MRP
+                    <ArrowForward className={classes.icons}/>
+                </Button>
+            </Container>
+            <Container style={{textAlign: 'center', padding: 0, margin: 0}}>
+                <MaterialTable
+                    icons={tableIcons}
+                    title=""
+                    columns={periodos.columns}
+                    data={periodos.data}
+                    localization={{
+                        body: {
+                            emptyDataSourceMessage: 'Sua lista está vazia',
+                            filterRow: {
+                                filterTooltip: 'Filtrar'
+                            },
+                            addTooltip: "Adicionar",
+                            editTooltip: "Editar",
+                            editRow: {
+                                saveTooltip: "Salvar",
+                                cancelTooltip: "Cancelar",
+                                deleteText: "Você tem certeza que deseja excluir este período?"
+                            }  
+                        },
+                        toolbar:{
+                            searchTooltip: 'Pesquisar',
+                            searchPlaceholder: 'Pesquisar'
+                        },
+                        header:{
+                            actions: "Ação"
+                        },
+                        pagination:{
+                            labelRowsSelect: "Linhas",
+                            labelDisplayedRows: "{from} - {to} de {count}"
+                        }
+                    }}
+                    editable={{
+                    onRowAdd: newData =>
+                        new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve();
+                            const data = [...periodos.data];
+                            newData.NumeroPeriodo = data.length !== 0  ? data[data.length - 1].tableData.id + 2 : 1
+                            data.push(newData);
+                            setPeriodos({ ...periodos, data });
+                        }, 600);
+                        }),
+                    onRowUpdate: (newData, oldData) =>
+                        new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve();
+                            const data = [...periodos.data];
+                            data[data.indexOf(oldData)] = newData;
+                            setPeriodos({ ...periodos, data });
+                        }, 600);
+                        }),
+                    onRowDelete: oldData =>
+                        new Promise(resolve => {
+                        setTimeout(() => {
+                            resolve();
+                            const data = [...periodos.data];
+                            data.splice(data.indexOf(oldData), 1);
+                            setPeriodos({ ...periodos, data });
+                        }, 600);
+                        }),
+                    }}
+                    options={{
+                        actionsColumnIndex: -1,
+                        search: false
+                    }}
+                />
+            </Container>
+        </Grid>
     );
   }
