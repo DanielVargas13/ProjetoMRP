@@ -112,6 +112,7 @@ export default function Periodos({history}) {
     });
 
     const sendRoute = formEditado => {
+        console.log(formEditado)
         history.push({
             pathname: `/mrp`,
             state: formEditado ,
@@ -125,8 +126,8 @@ export default function Periodos({history}) {
         periodos.data.map(item => {
             listaDemanda.push(item.Demanda)
             listArrayVazio.push(0)
-        })
-
+        }) 
+        
        let formEditado = Array.from(form)
        
 
@@ -140,7 +141,7 @@ export default function Periodos({history}) {
       
        formEditado.map((item, index) => {
            if(index !== 0)
-            formEditado.splice(index,1, {...formEditado[0],NumeroPeriodos: 0, NecessidadesBrutas: listArrayVazio,  
+            formEditado.splice(index,1, {...formEditado[index],NumeroPeriodos: 0, NecessidadesBrutas: listArrayVazio,  
                 RecebimentosProgramados:listArrayVazio,
                 EstoqueProjetado:listArrayVazio,
                 RecebimentosOrdensPlanejadas:listArrayVazio,
