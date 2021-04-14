@@ -508,8 +508,8 @@ import Paper from '@material-ui/core/Paper';
       }
   }
 
-  function CalculaMRP(item){
-    for (let index = 0; index < item.NumeroPeriodos; index++) {
+  function CalculaMRP(item,numeroPeriodos){
+    for (let index = 0; index < numeroPeriodos; index++) {
         var valor = 0;
         var ordemPlanejada = 0;
         if (index === 0) {
@@ -638,9 +638,10 @@ import Paper from '@material-ui/core/Paper';
 
 function MRP({history}){
     var componentes = history.location.state;
+    var numeroPeriodos = componentes[0].NumeroPeriodos;
     
     for (let index = 0; index < componentes.length; index++) {
-        CalculaMRP(componentes[index]);
+        CalculaMRP(componentes[index],numeroPeriodos);
         CalculaDemandas(componentes,index);
     }
 
