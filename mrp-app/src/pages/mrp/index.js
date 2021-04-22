@@ -507,54 +507,51 @@ import Paper from '@material-ui/core/Paper';
         var ordemPlanejada = 0;
         if (index === 0) {
             ordemPlanejada = item.RecebimentosOrdensPlanejadas[index];
+            valor = ordemPlanejada + item.EstoqueInicial - item.NecessidadesBrutas[index];
 
-            do {
-                valor = ordemPlanejada + item.EstoqueInicial - item.NecessidadesBrutas[index];
-                if(valor >= 0){
-                    item.EstoqueProjetado.splice(index,1,valor);
-                }
-                else{
-                    if(item.TamanhoLoteMinimo > 0){
-                        if(item.Quantidade > 0){
-                            ordemPlanejada += item.TamanhoLoteMinimo * item.Quantidade;
-                        }
-                        else{
-                            ordemPlanejada += item.TamanhoLoteMinimo;
-                        }
-                    }
-                    else{
-                        ordemPlanejada += valor*(-1);
-                    }
-                }
-            } while (valor < 0);
-
-            item.LiberacaoOrdensPlanejadas.splice(index-item.LeadTime,1,ordemPlanejada);
-            item.RecebimentosOrdensPlanejadas.splice(index,1,ordemPlanejada);
-        } else {
+            if(valor >= 0){
+                item.EstoqueProjetado.splice(index,1,valor);
+            }
+            else{
+                item.EstoqueProjetado.splice(index,1,"Stockout");
+            }
+        } 
+        else {
             ordemPlanejada = item.RecebimentosOrdensPlanejadas[index];
 
-            do {
-                valor = ordemPlanejada + item.EstoqueProjetado[index-1] - item.NecessidadesBrutas[index];
-                if(valor >= 0){
-                    item.EstoqueProjetado.splice(index,1,valor);
-                }
-                else{
-                    if(item.TamanhoLoteMinimo > 0){
-                        if(item.Quantidade > 0){
-                            ordemPlanejada += item.TamanhoLoteMinimo * item.Quantidade;
-                        }
-                        else{
-                            ordemPlanejada += item.TamanhoLoteMinimo;
-                        }
+            if(item.EstoqueProjetado[index-1] === "Stockout"){
+                item.EstoqueProjetado.splice(index,1,"Stockout");
+            }
+            else{
+                do {
+                    valor = ordemPlanejada + item.EstoqueProjetado[index-1] - item.NecessidadesBrutas[index];
+                    
+                    if(valor >= 0){
+                        item.EstoqueProjetado.splice(index,1,valor);
                     }
                     else{
-                        ordemPlanejada += valor*(-1);
+                        if(item.TamanhoLoteMinimo > 0){
+                            if(item.Quantidade > 0){
+                                ordemPlanejada += item.TamanhoLoteMinimo * item.Quantidade;
+                            }
+                            else{
+                                ordemPlanejada += item.TamanhoLoteMinimo;
+                            }
+                        }
+                        else{
+                            ordemPlanejada += valor*(-1);
+                        }
                     }
+                } while (valor < 0);
+    
+                if(ordemPlanejada > 0 && index-item.LeadTime < 0){
+                    item.EstoqueProjetado.splice(index,1,"Stockout");
                 }
-            } while (valor < 0);
-
-            item.LiberacaoOrdensPlanejadas.splice(index-item.LeadTime,1,ordemPlanejada);
-            item.RecebimentosOrdensPlanejadas.splice(index,1,ordemPlanejada);
+                else{
+                    item.LiberacaoOrdensPlanejadas.splice(index-item.LeadTime,1,ordemPlanejada);
+                    item.RecebimentosOrdensPlanejadas.splice(index,1,ordemPlanejada);
+                }
+            }
         }
     }
   }
