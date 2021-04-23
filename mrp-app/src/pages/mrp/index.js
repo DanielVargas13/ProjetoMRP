@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
-import { makeStyles, Typography }  from '@material-ui/core';
+import { makeStyles, Typography, Button, Container, Grid }  from '@material-ui/core';
+import { Autorenew } from '@material-ui/icons';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -9,6 +10,13 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
   const useStyles = makeStyles((theme) => ({
+    root:{
+        backgroundColor: '#ffffff', 
+        height: '20vh', 
+        margin:0, 
+        padding: 0, 
+        overflow: 'hidden'
+    },
     table: {
       width: '90%',
     },
@@ -17,359 +25,17 @@ import Paper from '@material-ui/core/Paper';
         margin: theme.spacing(3),
         fontFamily: 'Questrial, sans-serif '
     },
+    icons:{
+        margin: theme.spacing(1,2)
+    },
+    linkButton:{
+        textAlign: 'center',
+        justifyContent: 'center',
+        textTransform: 'capitalize',
+        marginTop: theme.spacing(-5),
+        paddingLeft: theme.spacing(5),
+    }
   }));
-
-  /*function TesteComponentes(){
-      var array=[
-            {
-                NomeComponente:"Lapiseira P207",
-                TamanhoLoteMinimo:700,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:0,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:550,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[200,200,800,1200,400,1200,1200,200],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Corpo externo 207",
-                TamanhoLoteMinimo:500,
-                LeadTime:2,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Presilha de bolso",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Miolo 207",
-                TamanhoLoteMinimo:500,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Corpo da ponteira",
-                TamanhoLoteMinimo:100,
-                LeadTime:2,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Guia da ponteira",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Tampa",
-                TamanhoLoteMinimo:500,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Plástico ABS (Corpo externo)",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:10,
-                UnidadeQuantidade:"g",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Corante azul",
-                TamanhoLoteMinimo:100,
-                LeadTime:2,
-                EstoqueSegurança:0,
-                Quantidade:0.1,
-                UnidadeQuantidade:"g",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Tira .1 mm (Tampa)",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:2,
-                UnidadeQuantidade:"g",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Borracha",
-                TamanhoLoteMinimo:0,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Capa da borracha",
-                TamanhoLoteMinimo:0,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Miolo interno 207",
-                TamanhoLoteMinimo:0,
-                LeadTime:3,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Grafite 0.7 mm",
-                TamanhoLoteMinimo:100,
-                LeadTime:2,
-                EstoqueSegurança:0,
-                Quantidade:4,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Fio de borracha",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:2,
-                UnidadeQuantidade:"cm",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Tira .1 mm (Capa da borracha)",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:2,
-                UnidadeQuantidade:"g",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Mola",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Corpo do miolo",
-                TamanhoLoteMinimo:0,
-                LeadTime:2,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Suporte da garra",
-                TamanhoLoteMinimo:100,
-                LeadTime:2,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Capa da garra",
-                TamanhoLoteMinimo:100,
-                LeadTime:3,
-                EstoqueSegurança:0,
-                Quantidade:1,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Garras",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:3,
-                UnidadeQuantidade:"un",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Plástico ABS (Corpo do Miolo)",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:7,
-                UnidadeQuantidade:"g",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            },
-            {
-                NomeComponente:"Corante Preto",
-                TamanhoLoteMinimo:100,
-                LeadTime:1,
-                EstoqueSegurança:0,
-                Quantidade:0.5,
-                UnidadeQuantidade:"g",
-                EstoqueInicial:0,
-                NumeroPeriodos:8,
-                NecessidadesBrutas:[0,0,0,0,0,0,0,0],
-                RecebimentosProgramados:[0,0,0,0,0,0,0,0],
-                EstoqueProjetado:[0,0,0,0,0,0,0,0],
-                RecebimentosOrdensPlanejadas:[0,0,0,0,0,0,0,0],
-                LiberacaoOrdensPlanejadas:[0,0,0,0,0,0,0,0]
-            }
-        ]
-
-        return array;
-  }*/
 
   function CalculaDemandas(componentes,posicaoItem){
     var valor = 0;
@@ -520,7 +186,7 @@ import Paper from '@material-ui/core/Paper';
             ordemPlanejada = item.RecebimentosOrdensPlanejadas[index];
 
             if(item.EstoqueProjetado[index-1] === "Stockout"){
-                item.EstoqueProjetado.splice(index,1,"Stockout");
+                item.EstoqueProjetado.splice(index,1,0);
             }
             else{
                 do {
@@ -638,9 +304,27 @@ function MRP({history}){
 
     return(
         <Fragment>
-            <Typography variant="h4" gutterBottom className={classes.title}>
-                MRPs Gerados
-            </Typography>
+            <Grid 
+                container  
+                direction="row"
+                justify="center"
+                alignItems="baseline" 
+                spacing={3}
+                zeroMinWidth={false}
+                className={classes.root}
+            >
+                <Typography variant="h4" gutterBottom className={classes.title}>
+                        MRPs Gerados
+                    </Typography>
+                    <Container style={{textAlign: 'center', padding: 0}} maxWidth="xl">
+                        <Button variant="outlined" color="primary" className={classes.linkButton} 
+                            onClick={() => { history.push("/"); }}
+                        >
+                            Reiniciar
+                            <Autorenew className={classes.icons}/>
+                        </Button>
+                    </Container>
+            </Grid>
             {ConstruirTabela(componentes)}
     </Fragment>
     );
